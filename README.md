@@ -17,3 +17,5 @@ pip install binance-connector-python
 A simple one to place an order and cancel it every second, you are free to adjust parameters to place any orders.
 Support with testnet
 
+### `break-symbols.py`
+List symbols in status `BREAK`
