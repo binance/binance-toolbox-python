@@ -6,7 +6,7 @@ and Event vs Received time (T vs Now) for every order update
 
 Instructions:
 0.pip install binance-connector-python
-1.Set your own environment variables (BINANCE_TESTNET_API_KEY and BINANCE_TESTNET_SECRET_KEY):
+1.Set your own environment variables (BINANCE_TESTNET_API_KEY and BINANCE_TESTNET_SECRET_KEY, BINANCE_SYMBOL):
 2.python order-update-latency.py
 
 """
@@ -28,7 +28,7 @@ client = Client(os.getenv('BINANCE_TESTNET_API_KEY'),
                 os.getenv('BINANCE_TESTNET_SECRET_KEY'),
                 base_url='https://testnet.binance.vision')
 
-symbol = 'BNBUSDT'  # Example
+symbol = os.getenv('BINANCE_SYMBOL')
 
 
 def message_handler(message):
