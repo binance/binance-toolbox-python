@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 
-'''
+"""
 Listens to the user's websocket and creates a fixed number of orders to list the Transaction vs Event time (T vs E)
 and Event vs Received time (T vs Now) for every order update
 
-python order-update-latency.py
-'''
+Instructions:
+0.pip install binance-connector-python
+1.Set your own environment variables (BINANCE_TESTNET_API_KEY and BINANCE_TESTNET_SECRET_KEY):
+2.python order-update-latency.py
+
+"""
 
 import asyncio
 import logging
@@ -14,14 +18,17 @@ from binance.spot import Spot as Client
 from binance.websocket.spot.websocket_client import SpotWebsocketClient
 import json
 import random
+import os
+
 
 config_logging(logging, logging.INFO)
 
-api_key = ''
-api_secret = ''
-
 # testnet
-client = Client(api_key, api_secret, base_url='https://testnet.binance.vision')
+client = Client(os.getenv('BINANCE_TESTNET_API_KEY'),
+                os.getenv('BINANCE_TESTNET_SECRET_KEY'),
+                base_url='https://testnet.binance.vision')
+
+symbol = 'BNBUSDT'  # Example
 
 
 def message_handler(message):
@@ -29,9 +36,31 @@ def message_handler(message):
         print(f"Time diff >> "
               f"Order id:{message['data']['i']}, "
               f"Execution type:{message['data']['x']}, "
-              f"Transaction vs Event time: {message['data']['E'] - message['data']['T']} ms, "
-              f"Event vs Received time: {get_timestamp() - message['data']['E']} ms"
+              f"TvsE: {message['data']['E'] - message['data']['T']} ms, "
+              f"EvsNow: {get_timestamp() - message['data']['E']} ms"
               )
+
+
+def get_min_notion():
+    for s in client.exchange_info().get('symbols'):
+        if s.get('symbol') == symbol:
+            return float(s['filters'][3]['minNotional'])
+
+
+def get_parameters(min_notional):
+
+    quantity = round(random.uniform(1, 5), 2)
+    price = round(float(client.ticker_price(symbol)['price']) - random.uniform(0, 5), 2)
+
+    params = {
+        'symbol': symbol,
+        'side': 'BUY',
+        'type': 'LIMIT_MAKER',
+        'quantity': quantity,
+        'price': price if (price * quantity) > min_notional else round((min_notional + 1 / quantity), 2)
+    }
+    print(params)
+    return params
 
 
 async def listen_ws():
@@ -56,18 +85,12 @@ async def create_orders():
     # Finalise websocket subscription
     await asyncio.sleep(1)
 
-    symbol = 'BNBUSDT'
     order_counter = 1
+    max_orders = 100  # Optional
+    min_notional = get_min_notion()
 
-    params = {
-        'symbol': symbol,
-        'side': 'BUY',
-        'type': 'LIMIT_MAKER',
-        'quantity': round(random.uniform(0, 5), 2),
-        'price': float(client.ticker_price(symbol)['price']) - round(random.uniform(0, 10), 2)
-    }
-    while order_counter <= 100:
-        response = client.new_order(**params)
+    while order_counter <= max_orders:
+        response = client.new_order(**get_parameters(min_notional))
         logging.info("order ID: {}".format(response['orderId']))
         await asyncio.sleep(1)
         order_counter += 1
