@@ -18,4 +18,9 @@ A simple one to place an order and cancel it every second, you are free to adjus
 Support with testnet
 
 ### `break-symbols.py`
-List symbols in status `BREAK`
+List symbols in status
+
+### `order-update-latency.py`
+Listens to the user's websocket and creates a fixed number of orders to list the Transaction vs Event time (T vs E) 
+and Event vs Received time (T vs Now) for every order update
+(Adjust script as needed)
