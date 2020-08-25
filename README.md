@@ -24,3 +24,7 @@ List symbols in status
 Listens to the user's websocket and creates a fixed number of orders to list the Transaction vs Event time (T vs E) 
 and Event vs Received time (T vs Now) for every order update
 (Adjust script as needed)
+
+```shell
+BINANCE_TESTNET_API_KEY=xxx BINANCE_TESTNET_SECRET_KEY=xxx BINANCE_SYMBOL=BNBUSDT python order-update-latency.py
+```
