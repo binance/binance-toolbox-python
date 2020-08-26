@@ -24,3 +24,8 @@ List symbols in status
 Listens to the user's websocket and creates a fixed number of orders to list the Transaction vs Event time (T vs E) 
 and Event vs Received time (T vs Now) for every order update
 (Adjust script as needed)
+
+### `order-update-latency.py`
+Creates, manages a local orderbook and prints out its best prices.
+Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream.
+
