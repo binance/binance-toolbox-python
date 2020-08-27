@@ -28,3 +28,11 @@ and Event vs Received time (T vs Now) for every order update
 ```shell
 BINANCE_TESTNET_API_KEY=xxx BINANCE_TESTNET_SECRET_KEY=xxx BINANCE_SYMBOL=BNBUSDT python order-update-latency.py
 ```
+### `manage-orderbook.py`
+Manages a local orderbook and prints out its best prices.
+Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
+
+```shell
+WORK_ENV=binance BINANCE_API_KEY=XXX BINANCE_TESTNET_SECRET_KEY=XXX SYMBOL=BNBUSDT python manage_orderbook.py
+```
+
