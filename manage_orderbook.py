@@ -13,7 +13,7 @@ Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
 
 Instructions:
 0.pip install binance-connector-python
-1. WORK_ENV=binance BINANCE_API_KEY=XXX BINANCE_TESTNET_SECRET_KEY=XXX SYMBOL=BNBUSDT python manage_orderbook.py
+1. WORK_ENV=binance BINANCE_API_KEY=XXX SYMBOL=BNBUSDT python manage_orderbook.py
 """
 
 config_logging(logging, logging.INFO)
@@ -22,7 +22,7 @@ symbol = os.getenv('SYMBOL')
 base_url = config.urls.get(os.getenv("WORK_ENV") + '_base_url')
 stream_url = config.urls.get(os.getenv("WORK_ENV") + '_stream_url') + '/' + symbol.lower() + '@depth'
 
-client = Client(os.getenv('BINANCE_API_KEY'), os.getenv('BINANCE_SECRET_KEY'), base_url=base_url)
+client = Client(os.getenv('BINANCE_API_KEY'), base_url=base_url)
 
 orderbook = {
     "lastUpdateId": 0,
