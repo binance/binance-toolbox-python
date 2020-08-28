@@ -33,6 +33,6 @@ Manages a local orderbook and prints out its best prices.
 Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
 
 ```shell
-WORK_ENV=binance BINANCE_API_KEY=XXX SYMBOL=BNBUSDT python manage_orderbook.py
+WORK_ENV=binance BINANCE_API_KEY=XXX SYMBOL=BNBUSDT python manage-orderbook.py
 ```
 
