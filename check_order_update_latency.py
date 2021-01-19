@@ -7,7 +7,7 @@ and Event vs Received time (T vs Now) for every order update
 Instructions:
 0. pip install binance-connector-python
 1. Set your own environment variables (BINANCE_TESTNET_API_KEY and BINANCE_TESTNET_SECRET_KEY, BINANCE_SYMBOL):
-2. python check_order-update-latency.py
+2. python check_order_update_latency.py
 
 """
 
