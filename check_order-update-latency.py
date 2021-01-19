@@ -5,9 +5,9 @@ Listens to the user's websocket and creates a fixed number of orders to list the
 and Event vs Received time (T vs Now) for every order update
 
 Instructions:
-0.pip install binance-connector-python
-1.Set your own environment variables (BINANCE_TESTNET_API_KEY and BINANCE_TESTNET_SECRET_KEY, BINANCE_SYMBOL):
-2.python order-update-latency.py
+0. pip install binance-connector-python
+1. Set your own environment variables (BINANCE_TESTNET_API_KEY and BINANCE_TESTNET_SECRET_KEY, BINANCE_SYMBOL):
+2. python check_order-update-latency.py
 
 """
 
@@ -95,7 +95,7 @@ async def create_orders():
         await asyncio.sleep(1)
         order_counter += 1
 
-    # cancel all open orders
+    # Cancel all open orders
     client.cancel_open_orders(symbol)
 
 

@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-''' List all symbol in BREAK status
-
-python break-symbols.py
-
-'''
+"""
+Lists all symbols in BREAK status
+python list_break_symbols.py
+"""
 
 from binance.spot import Spot as Client
 
 key = ''
 secret = ''
-# for production
+
+# For production
 client = Client(key, secret)
 
 response = client.exchange_info()
