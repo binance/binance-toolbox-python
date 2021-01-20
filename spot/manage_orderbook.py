@@ -1,12 +1,3 @@
-from binance.spot import Spot as Client
-from binance.websocket.spot.websocket_client import SpotWebsocketClient
-from binance.lib.utils import config_logging
-import os
-import logging
-import json
-import asyncio
-import config
-
 """
 Manages a local orderbook and prints out its best prices.
 Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
@@ -15,6 +6,16 @@ Instructions:
 0. pip install binance-connector-python
 1. WORK_ENV=binance BINANCE_API_KEY=XXX SYMBOL=BNBUSDT python manage_orderbook.py
 """
+
+from binance.spot import Spot as Client
+from binance.websocket.spot.websocket_client import SpotWebsocketClient
+from binance.lib.utils import config_logging
+import os
+import logging
+import json
+import asyncio
+from spot import config
+
 
 config_logging(logging, logging.INFO)
 
