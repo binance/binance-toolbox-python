@@ -1,6 +1,4 @@
-# Binance Toolbox
-
-Some useful scripts to help validate REST or Streaming API on Coin Futures
+# Binance Toolbox - Coin Futures
 
 ## Scripts
 
