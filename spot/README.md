@@ -1,7 +1,5 @@
 # Binance Toolbox
 
-Some useful scripts that help API users to validate endpoints or API settings
-
 ## How to use
 It's required to install the `binance-connector-python` package
 
