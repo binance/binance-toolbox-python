@@ -1,4 +1,4 @@
-# Binance Toolbox
+# Binance Toolbox - Spot
 
 ## How to use
 It's required to install the `binance-connector-python` package
