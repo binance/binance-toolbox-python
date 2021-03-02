@@ -10,3 +10,6 @@ EXPORT BINANCE_API_KEY="<your_api_key>"
 EXPORT BINANCE_API_SECRET="<your_secret_key>"
 ```
 
+## Running
+`python3 test_user_data_stream_request.py`
+
