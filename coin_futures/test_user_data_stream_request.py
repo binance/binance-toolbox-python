@@ -12,8 +12,13 @@ import asyncio
 import json
 from datetime import datetime
 import os
+import requests
 
-listenKey = os.getenv('BINANCE_LISTEN_KEY')
+apiKey = os.getenv('BINANCE_API_KEY')
+secretKey = os.getenv('BINANCE_API_SECRET')
+base_endpoint = 'https://dapi.binance.com'
+listenkey_json = requests.post(base_endpoint + '/dapi/v1/listenKey',headers = {"X-MBX-APIKEY" : apiKey,})
+listenKey = json.loads(listenkey_json.text)['listenKey']
 stream_endpoint = f'wss://dstream.binance.com/ws/{listenKey}'
 request_name = '@position'
 my_id = 123
@@ -33,7 +38,9 @@ async def monitor():
             await ws.send(payload)
             try:
                 resp = json.loads(await asyncio.wait_for(ws.recv(), timeout=10))
-                if 'id' in resp:
+                if resp['result'] == []:
+                    print(datetime.now().strftime("%H:%M:%S"), f'Received Empty Results with response with id={resp.get("id")}, Check Listen Key!')
+                elif 'id' in resp:
                     print(datetime.now().strftime("%H:%M:%S"), f'Received response with id={resp.get("id")}')
                 else:
                     # Not request's response but pushed event update
