@@ -2,7 +2,7 @@
 Listens user's data stream and creates 3 requests to obtain user's position.
 
 Instructions:
-1. Set your own environment variable BINANCE_LISTEN_KEY
+1. Set your own environment variable BINANCE_API_KEY and BINANCE_API_SECRET
 2. python test_user_data_stream.py
 """
 
@@ -17,7 +17,7 @@ import requests
 apiKey = os.getenv('BINANCE_API_KEY')
 secretKey = os.getenv('BINANCE_API_SECRET')
 base_endpoint = 'https://dapi.binance.com'
-listenkey_json = requests.post(base_endpoint + '/dapi/v1/listenKey',headers = {"X-MBX-APIKEY" : apiKey,})
+listenkey_json = requests.post(base_endpoint + '/dapi/v1/listenKey', headers={"X-MBX-APIKEY": apiKey})
 listenKey = json.loads(listenkey_json.text)['listenKey']
 stream_endpoint = f'wss://dstream.binance.com/ws/{listenKey}'
 request_name = '@position'
