@@ -1,15 +1,17 @@
 # Binance Toolbox - Coin Futures
 
-## Scripts
+## Preparation
+Some api endpoints requires sending a valid API-Key and signature, so in order for some scripts to work, please set up 
+your account's api key pair as environment variables.
 
-### `test_user_data_stream_request.py`
-Listens user's data stream and creates 3 requests to obtain user's position.
+Note: By default, the scripts uses Testnet's REST and Websocket as base urls.
 
 ```shell
-EXPORT BINANCE_API_KEY="<your_api_key>"
-EXPORT BINANCE_API_SECRET="<your_secret_key>"
+export BINANCE_API_KEY="<your_api_key>"
+export BINANCE_API_SECRET="<your_secret_key>"
 ```
 
-## Running
-`python3 test_user_data_stream_request.py`
+## Scripts
+Each script contains purpose and instructions information. Current available scripts:
 
+- test_user_data_stream_request.py;
