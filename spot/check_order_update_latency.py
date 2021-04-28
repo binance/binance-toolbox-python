@@ -1,13 +1,19 @@
 #!/usr/bin/env python
 
 """
-Listens to the user's websocket and creates a fixed number of orders to list the Transaction vs Event time (T vs E)
-and Event vs Received time (T vs Now) for every order update
+Incrementally creates order every second while listening to the account's websocket to check the
+Transaction vs Event time (T vs E) and Event vs Received time (T vs Now) for every received order update.
+Processes ends when 5 orders is reached and all open orders are canceled.
+
+T - time the transaction happened
+E - time the payload was created
+Now - time the payload was received locally
 
 Instructions:
-0. pip install binance-connector-python
-1. Set your own environment variables (BINANCE_TESTNET_API_KEY and BINANCE_TESTNET_SECRET_KEY, BINANCE_SYMBOL):
-2. python check_order_update_latency.py
+    1. Have binance-connector-python installed
+    2. Set up your account's api key as BINANCE_API_KEY environment variable
+    3. Set up your account's api secret key as BINANCE_API_SECRET environment variable
+    4. python check_order_update_latency.py
 
 """
 
@@ -23,12 +29,12 @@ import os
 
 config_logging(logging, logging.INFO)
 
-# testnet
-client = Client(os.getenv('BINANCE_TESTNET_API_KEY'),
-                os.getenv('BINANCE_TESTNET_SECRET_KEY'),
+# Testnet
+client = Client(os.getenv('BINANCE_API_KEY'), os.getenv('BINANCE_API_SECRET'),
                 base_url='https://testnet.binance.vision')
+ws_client = SpotWebsocketClient(stream_url='wss://testnet.binance.vision')
 
-symbol = os.getenv('BINANCE_SYMBOL')
+symbol = "XRPBUSD"
 
 
 def message_handler(message):
@@ -41,34 +47,25 @@ def message_handler(message):
               )
 
 
-def get_min_notion():
-    for s in client.exchange_info().get('symbols'):
-        if s.get('symbol') == symbol:
-            return float(s['filters'][3]['minNotional'])
+def get_parameters():
 
-
-def get_parameters(min_notional):
-
-    quantity = round(random.uniform(1, 5), 2)
-    price = round(float(client.ticker_price(symbol)['price']) - random.uniform(0, 5), 2)
+    quantity = 10
+    price = float(client.ticker_price(symbol)['price'])
 
     params = {
         'symbol': symbol,
         'side': 'BUY',
         'type': 'LIMIT_MAKER',
         'quantity': quantity,
-        'price': price if (price * quantity) > min_notional else round((min_notional + 1 / quantity), 2)
+        'price': price
     }
-    print(params)
     return params
 
 
 async def listen_ws():
 
     response = client.new_listen_key()
-    logging.info(f"Receiving listen key : {response['listenKey']}")
-
-    ws_client = SpotWebsocketClient(stream_url='wss://testnet.binance.vision')
+    logging.info("Starting ws connection")
     ws_client.start()
     ws_client.user_data(
         listen_key=response['listenKey'],
@@ -76,27 +73,26 @@ async def listen_ws():
         callback=message_handler,
     )
 
-    logging.debug("closing ws connection")
-    # ws_client.stop()
-
 
 async def create_orders():
 
-    # Finalise websocket subscription
+    # Time to finalise websocket connection set up
     await asyncio.sleep(1)
 
     order_counter = 1
-    max_orders = 100  # Optional
-    min_notional = get_min_notion()
+    max_orders = 5  # Optional
 
     while order_counter <= max_orders:
-        response = client.new_order(**get_parameters(min_notional))
-        logging.info("order ID: {}".format(response['orderId']))
+        params = get_parameters()
+        response = client.new_order(**params)
+        logging.info(f"Created order id {response['orderId']} with params: {params})")
         await asyncio.sleep(1)
         order_counter += 1
 
     # Cancel all open orders
     client.cancel_open_orders(symbol)
+    logging.info("closing ws connection")
+    ws_client.stop()
 
 
 def main():

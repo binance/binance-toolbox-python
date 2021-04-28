@@ -1,33 +1,28 @@
 # Binance Toolbox - Spot
 
-## How to use
-It's required to install the `binance-connector-python` package
+## Preparation
+1. It's required to install the `binance-connector-python` package
 
-```python
-pip install binance-connector-python
-```
+    ```shell
+    pip install binance-connector-python
+    ```
+   
+2. Some api endpoints requires sending a valid API-Key and signature, so in order for some scripts to work, please set up 
+your account's api key pair as environment variables.
 
+    Note: By default, the scripts uses Testnet's REST and Websocket as base urls.
+
+    ```shell
+    export BINANCE_API_KEY=<your_api_key>
+    export BINANCE_API_SECRET=<your_secret_key>
+    ```
+   
 ## Scripts
-### `place_order.py`
-A simple script to place an order and cancel it every second, you are free to adjust parameters to place any orders.
-Support with testnet
+You can find each script's purpose and instructions information within each script file.
+Current available scripts:
 
-### `list_break_symbols.py`
-List symbols in status "BREAK"
-
-### `check_order_update_latency.py`
-Listens to the user's websocket and creates a fixed number of orders to list the Transaction vs Event time (T vs E) 
-and Event vs Received time (T vs Now) for every order update
-(Adjust script as needed)
-
-```shell
-BINANCE_TESTNET_API_KEY=xxx BINANCE_TESTNET_SECRET_KEY=xxx BINANCE_SYMBOL=BNBUSDT python check_order_update_latency.py
-```
-### `manage_orderbook.py`
-Manages a local orderbook and prints out its best prices.
-Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
-
-```shell
-WORK_ENV=binance BINANCE_API_KEY=XXX SYMBOL=BNBUSDT python manage_orderbook.py
-```
+- `place_order.py`
+- `list_break_symbols.py`
+- `check_order_update_latency.py`
+- `manage_orderbook.py`
 
