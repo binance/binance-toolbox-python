@@ -3,9 +3,9 @@ Simple Script to obtain margin account's trades, based on:
 https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-list-user_data
 
 Instructions:
-1. Set up your account's api key as BINANCE_API_KEY environment variable;
-2. Set up your account's api secret key as BINANCE_API_SECRET environment variable;
-3. python get_my_trades.py
+    1. Set up your account's api key as BINANCE_API_KEY environment variable;
+    2. Set up your account's api secret key as BINANCE_API_SECRET environment variable;
+    3. python get_my_trades.py
 """
 
 import time
