@@ -5,7 +5,8 @@ https://binance-docs.github.io/apidocs/spot/en/#query-margin-account-39-s-trade-
 Instructions:
     1. Set up your account's api key as BINANCE_API_KEY environment variable;
     2. Set up your account's api secret key as BINANCE_API_SECRET environment variable;
-    3. python get_my_trades.py
+    3. Define symbol in this file and adjust other fields if needed;
+    4. python get_my_trades.py
 """
 
 import time
@@ -18,6 +19,8 @@ import os
 key = os.getenv('BINANCE_API_KEY')
 secret = os.getenv('BINANCE_API_SECRET')
 base_url = 'https://api.binance.com'
+symbol = ''  # Example: BNBUSDT
+
 
 def signature(params):
     params_query_string = urlencode(params)
@@ -32,7 +35,7 @@ def request(url, params):
 
 # Request my account's trades
 parameters = {
-    'symbol': 'ETHUSDT',
+    'symbol': symbol,
     'limit': 500,
     'recvWindow': 10000,
     'timestamp': time.time_ns() // 1000000,

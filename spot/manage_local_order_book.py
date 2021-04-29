@@ -5,7 +5,8 @@ Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
 Instructions:
     1. Have binance-connector-python installed
     2. Set up your account's api key as BINANCE_API_KEY environment variable
-    3. python manage_local_order_book.py
+    3. Define symbol in this file and adjust other fields if needed;
+    4. python manage_local_order_book.py
 
 """
 
@@ -20,7 +21,7 @@ import asyncio
 
 config_logging(logging, logging.INFO)
 
-symbol = 'BNBUSDT'
+symbol = ''  # Example: BNBUSDT
 base_url = 'https://testnet.binance.vision'
 stream_url = 'wss://testnet.binance.vision/ws/' + symbol.lower() + '@depth'
 

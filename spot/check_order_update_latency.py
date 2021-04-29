@@ -13,7 +13,8 @@ Instructions:
     1. Have binance-connector-python installed
     2. Set up your account's api key as BINANCE_API_KEY environment variable
     3. Set up your account's api secret key as BINANCE_API_SECRET environment variable
-    4. python check_order_update_latency.py
+    4. Define symbol in this file and adjust other fields if needed;
+    5. python check_order_update_latency.py
 
 """
 
@@ -34,7 +35,7 @@ client = Client(os.getenv('BINANCE_API_KEY'), os.getenv('BINANCE_API_SECRET'),
                 base_url='https://testnet.binance.vision')
 ws_client = SpotWebsocketClient(stream_url='wss://testnet.binance.vision')
 
-symbol = "XRPBUSD"
+symbol = ''  # Example: BNBUSDT
 
 
 def message_handler(message):

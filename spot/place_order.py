@@ -8,7 +8,8 @@ Instructions:
     1. Have binance-connector-python installed
     2. Set up your account's api key as BINANCE_API_KEY environment variable
     3. Set up your account's api secret key as BINANCE_API_SECRET environment variable
-    4. python place_order.py
+    4. Define symbol in this file and adjust other fields if needed;
+    5. python place_order.py
 
 Note:
     Make sure to respect exchangeInfo endpoint's filters for price and quantity:
@@ -31,7 +32,7 @@ client = Client(key, secret, base_url='https://testnet.binance.vision')
 # # For Production
 # client = Client(key, secret)
 
-symbol = 'XRPBUSD'
+symbol = ''  # Example: BNBUSDT
 
 while True:
     # Create an order and cancel the same order every second
