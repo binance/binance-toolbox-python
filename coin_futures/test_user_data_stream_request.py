@@ -3,8 +3,8 @@ Listens to COIN-M Futures Testnet account's data stream and creates 3 requests t
 Feel free to adapt this script for other types of request or other changes more suitable for your use case.
 
 Instructions:
-1. Set up your account's api key as BINANCE_API_KEY environment variable;
-2. python test_user_data_stream.py (or python3)
+    1. Set up your account's api key as BINANCE_API_KEY environment variable;
+    2. python test_user_data_stream.py (or python3)
 """
 
 
