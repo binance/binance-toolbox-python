@@ -1,10 +1,10 @@
 # Binance Toolbox - Spot
 
 ## Preparation
-1. It's required to install the `binance-connector-python` package
+1. It's required to install the `binance-connector` package
 
     ```shell
-    pip install binance-connector-python
+    pip install binance-connector
     ```
    
 2. Some api endpoints requires sending a valid API-Key and signature, so in order for some scripts to work, please set up 

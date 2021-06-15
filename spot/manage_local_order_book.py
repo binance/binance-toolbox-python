@@ -3,9 +3,9 @@ Manages a local order book and prints out its best prices.
 Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
 
 Instructions:
-    1. Have binance-connector-python installed
+    1. Have binance-connector installed
     2. Set up your account's api key as BINANCE_API_KEY environment variable
-    3. Define symbol in this file and adjust other fields if needed;
+    3. Define symbol in this file and adjust other fields if needed
     4. python manage_local_order_book.py
 
 """

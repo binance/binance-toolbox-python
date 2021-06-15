@@ -5,10 +5,10 @@ A simple script to place an order and cancel it every second.
 Feel free to adjust the parameters or change from Testnet to Production setting.
 
 Instructions:
-    1. Have binance-connector-python installed
+    1. Have binance-connector installed
     2. Set up your account's api key as BINANCE_API_KEY environment variable
     3. Set up your account's api secret key as BINANCE_API_SECRET environment variable
-    4. Define symbol in this file and adjust other fields if needed;
+    4. Define symbol in this file and adjust other fields if needed
     5. python place_order.py
 
 Note:
@@ -41,7 +41,7 @@ while True:
         'side': 'BUY',
         'type': 'LIMIT_MAKER',
         'quantity': 10,
-        'price': 1.35
+        'price': 300
     }
 
     response = client.new_order(**params)

@@ -10,7 +10,7 @@ E - time the payload was created
 Now - time the payload was received locally
 
 Instructions:
-    1. Have binance-connector-python installed
+    1. Have binance-connector installed
     2. Set up your account's api key as BINANCE_API_KEY environment variable
     3. Set up your account's api secret key as BINANCE_API_SECRET environment variable
     4. Define symbol in this file and adjust other fields if needed;
