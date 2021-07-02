@@ -2,7 +2,7 @@
 
 """
 Incrementally creates order every second while listening to the account's websocket to check the
-Transaction vs Event time (T vs E) and Event vs Received time (T vs Now) for every received order update.
+Transaction vs Event time (T vs E) and Event vs Received time (E vs Now) for every received order update.
 Processes ends when 5 orders is reached and all open orders are canceled.
 
 T - time the transaction happened
