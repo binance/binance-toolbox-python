@@ -4,9 +4,8 @@ Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
 
 Instructions:
     1. Have binance-connector installed
-    2. Set up your account's api key as BINANCE_API_KEY environment variable
-    3. Define symbol in this file and adjust other fields if needed
-    4. python manage_local_order_book.py
+    2. Define symbol in this file and adjust other fields if needed
+    3. python manage_local_order_book.py
 
 """
 
@@ -23,9 +22,9 @@ config_logging(logging, logging.INFO)
 
 symbol = ''  # Example: BNBUSDT
 base_url = 'https://testnet.binance.vision'
-stream_url = 'wss://testnet.binance.vision/ws/' + symbol.lower() + '@depth'
+stream_url = 'wss://testnet.binance.vision/ws'
 
-client = Client(os.getenv('BINANCE_API_KEY'), base_url=base_url)
+client = Client(base_url=base_url)
 ws_client = SpotWebsocketClient(stream_url=stream_url)
 
 order_book = {
@@ -117,11 +116,11 @@ async def listen_ws():
     Listens to the ws to get the updates messages.
     """
 
-    response = client.new_listen_key()
     ws_client.start()
-    ws_client.user_data(
-        listen_key=response['listenKey'],
+    ws_client.diff_book_depth(
+        symbol=symbol.lower(),
         id=1,
+        speed=1000,
         callback=message_handler,
     )
 
@@ -133,7 +132,7 @@ async def get_best_price():
 
     while True:
         if order_book.get('lastUpdateId') > 0:
-            print(f'Best price > bid:{order_book["bids"][0][0]} , ask:{order_book["asks"][0][0]}')
+            print(f'Best prices -> bid:{order_book["bids"][0][0]} , ask:{order_book["asks"][0][0]}')
         await asyncio.sleep(1)
 
 
