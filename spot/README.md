@@ -25,4 +25,5 @@ Current available scripts:
 - `list_break_symbols.py`
 - `check_order_update_latency.py`
 - `manage_orderbook.py`
+- `multi_subs_market_ws.py`
 
