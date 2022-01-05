@@ -37,7 +37,6 @@ ws_client = SpotWebsocketClient(stream_url='wss://testnet.binance.vision')
 
 symbol = ''  # Example: BNBUSDT
 
-
 def message_handler(message):
     if "executionReport" in json.dumps(message):
         print(f"Time diff >> "
