@@ -17,12 +17,5 @@ your account's api key pair as environment variables.
     export BINANCE_API_SECRET=<your_secret_key>
     ```
    
-## Scripts
-You can find each script's purpose and instructions information within each script file.
-Current available scripts:
-
-- `place_order.py`
-- `list_break_symbols.py`
-- `check_order_update_latency.py`
-- `manage_orderbook.py`
-- `multi_subs_market_ws.py`
+## License
+MIT
