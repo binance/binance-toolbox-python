@@ -20,7 +20,7 @@ import asyncio
 
 config_logging(logging, logging.INFO)
 
-symbol = ''  # Example: BNBUSDT
+symbol = 'BNBUSDT'  # Example: BNBUSDT
 base_url = 'https://testnet.binance.vision'
 stream_url = 'wss://testnet.binance.vision/ws'
 
@@ -140,6 +140,5 @@ def main():
     loop = asyncio.get_event_loop()
     loop.run_until_complete(asyncio.gather(listen_ws(), get_best_price()))
     loop.close()
-
 
 main()

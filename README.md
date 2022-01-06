@@ -1,8 +1,21 @@
-# Binance Toolbox
+# Binance Toolbox Python
 
-- This repository contains simple scripts to help API users validate REST and STREAMING API endpoints.
+## Preparation
+1. It's required to install the `binance-connector` package
 
-- Scripts can belong to spot, margin or coin_futures, please go to the respective product directory and 
-check its README.md to know available scripts and how to set them up.
+    ```shell
+    pip install binance-connector
+    ```
+   
+2. Some api endpoints requires sending a valid API-Key and signature, so in order for some scripts to work, please set up 
+your account's api key pair as environment variables.
 
-- API documentation: https://binance-docs.github.io/apidocs/spot/en/#change-log
+    Note: By default, the scripts uses Testnet's REST and Websocket as base urls.
+
+    ```shell
+    export BINANCE_API_KEY=<your_api_key>
+    export BINANCE_API_SECRET=<your_secret_key>
+    ```
+   
+## License
+MIT

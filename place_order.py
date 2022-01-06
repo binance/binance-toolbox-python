@@ -25,7 +25,6 @@ from binance.spot import Spot as Client
 key = os.getenv('BINANCE_API_KEY')
 secret = os.getenv('BINANCE_API_SECRET')
 
-
 # For Testnet
 client = Client(key, secret, base_url='https://testnet.binance.vision')
 
