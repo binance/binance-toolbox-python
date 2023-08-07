@@ -10,7 +10,7 @@ Instructions:
 """
 
 from binance.spot import Spot as Client
-from binance.websocket.spot.websocket_client import SpotWebsocketClient
+from binance.websocket.spot.websocket_stream import SpotWebsocketStreamClient
 from binance.lib.utils import config_logging
 import os
 import logging
@@ -25,7 +25,7 @@ base_url = 'https://testnet.binance.vision'
 stream_url = 'wss://testnet.binance.vision/ws'
 
 client = Client(base_url=base_url)
-ws_client = SpotWebsocketClient(stream_url=stream_url)
+
 
 order_book = {
     "lastUpdateId": 0,
@@ -65,14 +65,13 @@ def manage_order_book(side, update):
     if float(quantity) != 0:
         order_book[side].append(update)
         if side == 'asks':
-            order_book[side] = sorted(order_book[side])  # asks prices in ascendant order
+            order_book[side] = sorted(order_book[side], key=lambda order: float(order[0]))  # asks prices in ascendant order
         else:
-            order_book[side] = sorted(order_book[side], reverse=True)  # bids prices in descendant order
+            order_book[side] = sorted(order_book[side], key=lambda order: float(order[0]), reverse=True)  # bids prices in descendant order
 
         # maintain side depth <= 1000
         if len(order_book[side]) > 1000:
             order_book[side].pop(len(order_book[side]) - 1)
-
 
 def process_updates(message):
     """
@@ -86,7 +85,7 @@ def process_updates(message):
     # logging.info("Condition 'U' <= last_update_id + 1 <= 'u' matched! Process diff update")
 
 
-def message_handler(message):
+def message_handler(_, message):
     """
     Syncs local order book with depthUpdate message's u (Final update ID in event) and U (First update ID in event).
     If synced, then the message will be processed.
@@ -94,34 +93,35 @@ def message_handler(message):
 
     global order_book
 
-    if "depthUpdate" in json.dumps(message):
+    json_data = json.loads(message)
 
+    depth_update_event = json_data.get('e')
+
+    if depth_update_event == "depthUpdate":
         last_update_id = order_book['lastUpdateId']
 
         # logging.info('LastUpdateId:' + str(last_update_id))
         # logging.info('Message U:' + str(message['U']) + ' u:' + str(message['u']))
 
-        if message['u'] <= last_update_id:
+        if json_data['u'] <= last_update_id:
             return  # Not an update, wait for next message
-        if message['U'] <= last_update_id + 1 <= message['u']:  # U <= lastUpdateId+1 AND u >= lastUpdateId+1.
-            order_book['lastUpdateId'] = message['u']
-            process_updates(message)
+        if json_data['U'] <= last_update_id + 1 <= json_data['u']:  # U <= lastUpdateId+1 AND u >= lastUpdateId+1.
+            order_book['lastUpdateId'] = json_data['u']
+            process_updates(json_data)
         else:
             logging.info('Out of sync, re-syncing...')
             order_book = get_snapshot()
-
 
 async def listen_ws():
     """
     Listens to the ws to get the updates messages.
     """
+    ws_client = SpotWebsocketStreamClient(stream_url=stream_url, on_message=message_handler)
 
-    ws_client.start()
     ws_client.diff_book_depth(
         symbol=symbol.lower(),
         id=1,
-        speed=1000,
-        callback=message_handler,
+        speed=1000
     )
 
 
