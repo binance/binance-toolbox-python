@@ -13,7 +13,7 @@ Instructions:
 
 Note:
     Make sure to respect exchangeInfo endpoint's filters for price and quantity:
-    https://binance-docs.github.io/apidocs/spot/en/#filters
+    https://developers.binance.com/docs/binance-spot-api-docs/filters
 
 """
 
