@@ -1,6 +1,6 @@
 """
 Manages a local order book and prints out its best prices.
-Based on https://binance-docs.github.io/apidocs/spot/en/#diff-depth-stream
+Based on https://developers.binance.com/docs/binance-spot-api-docs/web-socket-streams#diff-depth-stream
 
 Instructions:
     1. Have binance-connector installed

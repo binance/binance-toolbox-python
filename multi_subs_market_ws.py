@@ -7,49 +7,38 @@ Instructions:
     3. python multi_subs_market_ws.py
 """
 
-from binance.websocket.spot.websocket_client import SpotWebsocketClient
 import asyncio
-import json
+import logging
+import time
 
-ws_client = SpotWebsocketClient()
+from binance.lib.utils import config_logging
+from binance.websocket.spot.websocket_stream import SpotWebsocketStreamClient
 
 symbol_1 = 'btcusdt'
 symbol_2 = 'ethusdt'
 
+config_logging(logging, logging.DEBUG)
 
-def msg_handler_1(message):
-    print(f'{symbol_1} {json.dumps(message)}')
+def msg_handler(_, message):
+    logging.info(f"{message}\n")
 
-
-def msg_handler_2(message):
-    print(f'{symbol_2} {json.dumps(message)}')
-
+my_client = SpotWebsocketStreamClient(
+    on_message=msg_handler,
+    is_combined=True,
+)
 
 async def monitor():
     """Subscribes to 2 partial book depth market streams for 2 symbols:
-    https://binance-docs.github.io/apidocs/spot/en/#partial-book-depth-streams
+    https://developers.binance.com/docs/binance-spot-api-docs/web-socket-streams#partial-book-depth-streams
     """
-    ws_client.start()
-    ws_client.partial_book_depth(
-        symbol=symbol_1,
-        id=123,
-        callback=msg_handler_1,
-        level=5,
-        speed=1000
-    )
-    ws_client.partial_book_depth(
-        symbol=symbol_2,
-        id=321,
-        callback=msg_handler_2,
-        level=5,
-        speed=1000
-    )
+    my_client.partial_book_depth(symbol=f"{symbol_1}", level=5, speed=1000)
+    my_client.partial_book_depth(symbol=f"{symbol_2}", level=5, speed=1000)
+    time.sleep(10)
+    my_client.stop()
 
 
 def run():
-    loop = asyncio.get_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(monitor())
+    asyncio.run(monitor())
 
 
 run()
